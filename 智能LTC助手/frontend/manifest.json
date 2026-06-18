@@ -1,0 +1,10 @@
+{
+  "name": "LTC 2.0 AI 销售作战台",
+  "short_name": "LTC 2.0",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef2f7",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": []
+}

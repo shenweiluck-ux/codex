@@ -1,0 +1,10 @@
+{
+  "name": "ltc-2-intelligent-sales-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LTC 2.0 intelligent sales workspace demo.",
+  "scripts": {
+    "start": "node backend/server.js",
+    "check": "node --check backend/server.js && node --check frontend/app.js"
+  }
+}

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LTC 2.0" />
+    <title>LTC 2.0 AI 销售作战台</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-rail">
+        <div class="brand">
+          <div class="brand-mark">L2</div>
+          <div>
+            <strong>LTC 2.0</strong>
+            <span>AI Sales Cockpit</span>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active" data-view="workspace">作战台</button>
+          <button class="nav-item" data-view="memory">商机记忆</button>
+          <button class="nav-item" data-view="resources">资源加速</button>
+          <button class="nav-item" data-view="manager">管理驾驶舱</button>
+        </nav>
+
+        <div class="side-footer">
+          <button id="seedBtn" class="ghost-dark">载入样例</button>
+          <button id="resetBtn" class="danger-dark">重置数据</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">面向销售的一线作战与资源加速系统</span>
+            <h1 id="pageTitle">AI 销售作战台</h1>
+            <p id="pageSubtitle">像和销售助理对话一样输入客户现场，系统实时判断商机状态、风险和下一步打法。</p>
+          </div>
+          <div class="top-actions">
+            <button id="newOpportunityBtn" class="secondary-btn">新建商机</button>
+          </div>
+        </header>
+
+        <section id="workspaceView" class="view active">
+          <div class="cockpit-grid">
+            <section class="ai-workbench">
+              <div class="ai-hero">
+                <div class="ai-orb">AI</div>
+                <div>
+                  <h2>今天客户现场发生了什么？</h2>
+                  <p>输入拜访、电话、会议纪要或微信沟通摘要。系统会先理解，再建议更新。</p>
+                </div>
+              </div>
+
+              <div class="composer">
+                <div class="composer-tools">
+                  <span>实时输入与业务理解</span>
+                  <button id="openDocsBtn" class="text-tool-btn">插入测试样例</button>
+                </div>
+                <div id="liveHighlight" class="live-highlight">输入内容后，这里会实时标出预算、竞品、决策人、风险和系统关键词。</div>
+                <textarea id="salesLogInput" placeholder="例如：今天和客户信息部张总、采购王经理开会。张总认可我们的CRM方案，但采购认为价格偏高。客户预算大约80万，希望8月完成选型。目前A厂商也在跟进，报价可能更低。客户希望我们下周提供行业案例和初步报价。"></textarea>
+                <div class="composer-actions">
+                  <button id="analyzeBtn" class="primary-btn">生成 AI 理解卡</button>
+                  <button id="confirmBtn" class="success-btn" disabled>确认更新商机</button>
+                  <button id="clearInputBtn" class="ghost-btn">清空</button>
+                </div>
+              </div>
+
+              <section id="understandingCard" class="understanding-card empty-state">
+                <span>等待输入</span>
+                <strong>AI 理解卡会显示在这里</strong>
+                <p>先生成理解卡，确认后再更新商机状态，避免“系统替销售乱判断”。</p>
+              </section>
+            </section>
+
+            <aside class="panel opportunity-queue">
+              <div class="panel-head">
+                <div>
+                  <h2>商机队列</h2>
+                  <p>系统按紧急度和风险排序。</p>
+                </div>
+              </div>
+              <div id="opportunityCards" class="opportunity-cards"></div>
+              <section class="sub-panel">
+                <div class="panel-head compact">
+                  <h2>下一步动作</h2>
+                </div>
+                <div id="taskList" class="stack-list"></div>
+              </section>
+            </aside>
+
+            <aside class="panel live-profile">
+              <div class="panel-head">
+                <div>
+                  <h2 id="activeOppName">商机实时画像</h2>
+                  <p id="activeOppMeta">系统动态维护成熟度、风险和权益。</p>
+                </div>
+              </div>
+
+              <div class="health-card">
+                <div class="ring" id="healthRing" style="--value: 42">
+                  <span id="winRateMetric">42%</span>
+                </div>
+                <div>
+                  <span>预测赢率</span>
+                  <strong id="aiDiagnosis">等待新输入生成 AI 诊断。</strong>
+                </div>
+              </div>
+
+              <div class="profile-metrics">
+                <div>
+                  <span>权益等级</span>
+                  <strong id="rightsMetric">L1</strong>
+                </div>
+                <div>
+                  <span>风险等级</span>
+                  <strong id="riskMetric">中</strong>
+                </div>
+                <div>
+                  <span>信息完整度</span>
+                  <strong id="completenessMetric">28%</strong>
+                </div>
+              </div>
+
+              <section class="unlock-panel">
+                <div class="panel-head compact">
+                  <h2>动态推进路径</h2>
+                </div>
+                <div id="unlockPath" class="unlock-path"></div>
+              </section>
+
+              <section>
+                <div class="panel-head compact">
+                  <h2>识别信号</h2>
+                </div>
+                <div id="signalList" class="signal-list"></div>
+              </section>
+
+              <section>
+                <div class="panel-head compact">
+                  <h2>风险预警</h2>
+                </div>
+                <div id="riskList" class="stack-list"></div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <section id="memoryView" class="view">
+          <div class="memory-workspace">
+            <aside class="panel memory-sidebar">
+              <div class="panel-head">
+                <div>
+                  <h2>商机索引</h2>
+                  <p>选择商机查看该商机记忆。</p>
+                </div>
+              </div>
+              <div id="memoryOpportunityList" class="memory-opportunity-list"></div>
+            </aside>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2 id="memoryTitle">商机记忆库</h2>
+                  <p id="memorySubtitle">未选择商机时，按时间展示全部商机记忆。</p>
+                </div>
+              </div>
+              <div id="historyList" class="history-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2 id="memoryInfoTitle">关键信息面板</h2>
+                  <p id="memoryInfoSubtitle">未选择商机时，汇总全部商机的关键人和信息。</p>
+                </div>
+              </div>
+              <div id="contactMap" class="contact-map"></div>
+              <div class="panel-head compact">
+                <div>
+                  <h2>相关项目与资料</h2>
+                  <p>根据行业、金额、路径阶段和关键词召回相似项目。</p>
+                </div>
+              </div>
+              <div id="relatedProjectList" class="related-project-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="resourcesView" class="view">
+          <div class="grid resource-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>资源加速中心</h2>
+                  <p>销售不是填表，而是用真实信息解锁组织资源。</p>
+                </div>
+              </div>
+              <div class="resource-actions">
+                <button class="resource-btn" data-resource="售前支持">申请售前支持</button>
+                <button class="resource-btn" data-resource="方案专家">申请方案专家</button>
+                <button class="resource-btn" data-resource="交付评估">申请交付评估</button>
+                <button class="resource-btn" data-resource="高层陪访">申请高层陪访</button>
+                <button class="resource-btn" data-resource="价格特批">申请价格特批</button>
+                <button class="resource-btn" data-resource="合同加急">申请合同加急</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>自动申请材料</h2>
+              </div>
+              <pre id="materialBox" class="material-box"></pre>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>资源 SLA 跟踪</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>资源事项</th>
+                    <th>负责人</th>
+                    <th>优先级</th>
+                    <th>SLA</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="requestTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section id="managerView" class="view">
+          <section class="manager-summary">
+            <div class="panel ai-summary">
+              <span>AI 经营摘要</span>
+              <strong id="managerInsight">系统会根据商机质量、风险和资源请求生成经营判断。</strong>
+            </div>
+            <div class="metric"><span>预测金额</span><strong id="forecastAmount">--</strong></div>
+            <div class="metric"><span>平均赢率</span><strong id="avgWinRate">--</strong></div>
+            <div class="metric"><span>高风险商机</span><strong id="highRiskCount">--</strong></div>
+            <div class="metric"><span>资源请求</span><strong id="requestCount">--</strong></div>
+          </section>
+
+          <div class="grid two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>团队商机预测</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>商机</th>
+                      <th>金额</th>
+                      <th>赢率</th>
+                      <th>权益</th>
+                      <th>风险</th>
+                    </tr>
+                  </thead>
+                  <tbody id="managerTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>需要管理层介入</h2>
+              </div>
+              <div id="interventionList" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="newOppDialog">
+      <form method="dialog" class="dialog-card">
+        <h2>新建商机</h2>
+        <label>
+          商机名称
+          <input id="newOppName" type="text" placeholder="例如：制造业客户 CRM 项目" />
+        </label>
+        <label>
+          预计金额，万元
+          <input id="newOppAmount" type="number" min="1" value="80" />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost-btn">取消</button>
+          <button id="createOppBtn" class="primary-btn">创建</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="samplesDialog">
+      <form method="dialog" class="dialog-card wide-dialog">
+        <h2>测试输入样例</h2>
+        <div id="sampleList" class="sample-list"></div>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost-btn">关闭</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="relatedProjectDialog">
+      <form method="dialog" class="dialog-card wide-dialog">
+        <div id="relatedProjectDetail"></div>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost-btn">关闭</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="termPopover" class="term-popover" hidden></div>
+    <script src="app.js"></script>
+  </body>
+</html>
