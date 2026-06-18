@@ -1,0 +1,1 @@
+{"scripts":{"start":"node backend/server.js","check":"node scripts/check.js"},"devDependencies":{},"dependencies":{}}
