@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LTC 2.0 智能销售作战 Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Lead To Cash · 智能销售作战与资源加速</p>
+      <h1>LTC 2.0 智能销售作战 Demo</h1>
+      <p class="subtitle">把销售一线输入转化为商机评分、风险预警、下一步任务和资源加速方案。</p>
+    </div>
+    <div class="hero-card">
+      <span>今日作战状态</span>
+      <strong id="heroStatus">待录入</strong>
+      <small>规则引擎原型，可后续替换为 AI 与数据库服务。</small>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel input-panel">
+      <h2>销售实时输入</h2>
+      <form id="opportunity-form">
+        <label>客户名称<input id="customer" required placeholder="例如：华东制造集团"></label>
+        <label>商机阶段<select id="stage"><option>线索识别</option><option>需求确认</option><option>方案验证</option><option>商务谈判</option><option>合同签署</option></select></label>
+        <label>预计金额（万元）<input id="amount" type="number" min="0" value="120"></label>
+        <label>当前赢率（%）<input id="winRate" type="number" min="0" max="100" value="45"></label>
+        <label>关键情况<textarea id="notes" rows="5" placeholder="输入客户痛点、竞争态势、预算、决策人、交付风险、资源诉求等"></textarea></label>
+        <label>下一步计划<input id="nextStep" placeholder="例如：周五完成技术澄清并提交报价"></label>
+        <button type="submit">生成作战建议</button>
+      </form>
+    </section>
+
+    <section class="panel score-panel">
+      <h2>商机健康度</h2>
+      <div class="score-ring"><span id="score">--</span><small>分</small></div>
+      <div id="scoreReason" class="reason">提交表单后生成评分解释。</div>
+      <div class="metrics">
+        <div><span id="riskCount">0</span><small>风险</small></div>
+        <div><span id="taskCount">0</span><small>任务</small></div>
+        <div><span id="resourceCount">0</span><small>资源</small></div>
+      </div>
+    </section>
+
+    <section class="panel wide">
+      <h2>风险预警</h2>
+      <ul id="risks" class="cards empty"><li>暂无风险，请先录入商机信息。</li></ul>
+    </section>
+
+    <section class="panel wide">
+      <h2>动态作战任务</h2>
+      <ul id="tasks" class="cards empty"><li>系统将基于阶段、赢率和输入内容推荐任务。</li></ul>
+    </section>
+
+    <section class="panel wide">
+      <h2>资源加速方案</h2>
+      <div id="resourcePlan" class="resource-plan">资源申请材料将在这里自动生成。</div>
+    </section>
+
+    <section class="panel dashboard">
+      <h2>管理者驾驶舱</h2>
+      <div class="dashboard-grid">
+        <div><strong id="pipelineAmount">0</strong><span>万元管道</span></div>
+        <div><strong id="avgWinRate">0%</strong><span>平均赢率</span></div>
+        <div><strong id="highRiskDeals">0</strong><span>高风险商机</span></div>
+        <div><strong id="resourceNeeds">0</strong><span>资源诉求</span></div>
+      </div>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="section-head"><h2>跟进历史</h2><button id="clearHistory" type="button">清空</button></div>
+      <ol id="history" class="history"></ol>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
